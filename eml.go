@@ -14,7 +14,16 @@ func main() {
 
 	args := *command
 	if len(args) > 0 {
-		env := eml.LoadEnv(*envFile, *namespace)
-		eml.RunInEnv(args[0], args[1:], env)
+		env, err := eml.LoadEnv(*envFile, *namespace)
+		if err != nil {
+			println(err.Error())
+			return
+		}
+
+		err = eml.RunInEnv(args[0], args[1:], env)
+		if err != nil {
+			println(err.Error())
+			return
+		}
 	}
 }
